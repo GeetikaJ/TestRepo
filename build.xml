@@ -2,6 +2,10 @@
 <project name="Ecomm" default="build" basedir=".">
  <target name="build" depends="prepare,jslint,csslint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpdox,zip"/>
 
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Ecomm" default="build" basedir=".">
+ <target name="build" depends="prepare,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpdox,zip"/>
+
 <target name="clean" description="Cleanup build artifacts">
   <delete dir="${basedir}/build/api"/>
   <delete dir="${basedir}/build/coverage"/>
@@ -17,34 +21,10 @@
   <mkdir dir="${basedir}/build/pdepend"/>
  </target>
 
-<target name="jslint" description="Run the JSLint tool on JS files">
-  <fileset dir="${basedir}/ecomm_project" id="jsfiles.raw">
-    <include name="**/*.js" />
-   <!-- <exclude name="**/*.min.js" /> -->
-  </fileset>
-  <pathconvert pathsep=" " property="jsfiles.clean" refid="jsfiles.raw" />
-  <exec executable="java" output="build/logs/jslint.xml">
-  <!-- <arg line="-/ /-reporter=jslint ${jsfiles.clean}" /> -->
-   <arg line="-jar jslint4java.jar --report xml ${jsfiles.clean}" /> 
-  </exec>
-</target>
-
-
-
- <target name="csslint" description="Run the CSSLint tool on CSS files">
-   <fileset dir="${basedir}/ecomm_project" id="cssfiles.raw">
-     <include name="**/*.css" />
-   </fileset>
-   <pathconvert pathsep=" " property="cssfiles.clean" refid="cssfiles.raw" />
-   <exec executable="csslint" output="build/logs/csslint.xml">
-     <arg line="--warnings=box-model,floats --errors=ids,important --format=lint-xml ${cssfiles.clean}" />
-   </exec>
-</target> 
-
  <target name="generate-code" description="Generate Currency-specific subclasses of Ecomm and autoloader code">
  <chmod file="${basedir}/build/generate-child-classes.php" perm="ugo+x"/>
  <chmod file="${basedir}/build/tools/**" perm="ugo+x"/>
-<!--  <exec executable="${basedir}/build/generate-child-classes.php"/> -->
+
 
   <exec executable="${basedir}/build/tools/phpab.phar">
    <arg value="output"/>
@@ -52,8 +32,8 @@
    <arg path="ecomm_project"/>
   </exec>
  </target>
- 
 
+ 
  <target name="phploc" description="Measure project size using PHPLOC">
   <exec executable="${basedir}/build/tools/phploc.phar">
    <arg value="--count-tests"/>
@@ -66,6 +46,7 @@
   </exec>
  </target>
 
+
  <target name="pdepend" description="Calculate software metrics using PHP_Depend">
   <exec executable="${basedir}/build/tools/pdepend.phar">
    <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml"/>
@@ -74,6 +55,8 @@
    <arg path="${basedir}/ecomm_project"/>
   </exec>
  </target>
+
+
 
  <target name="phpmd" description="Perform project mess detection using PHPMD and print result in text format">
   <exec executable="${basedir}/build/tools/phpmd.phar">
