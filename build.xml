@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Ecomm" default="build" basedir=".">
- <target name="build" depends="prepare,jslint,csslint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpdox,zip"/>
-
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="Ecomm" default="build" basedir=".">
  <target name="build" depends="prepare,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpdox,zip"/>
 
 <target name="clean" description="Cleanup build artifacts">
